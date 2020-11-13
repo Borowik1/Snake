@@ -57,8 +57,15 @@ namespace Snake
 
         public override string ToString()
         {
-            return x+", "+ y+ ", "+ sym;
+            return x + ", " + y + ", " + sym;
         }
 
+        internal bool IsHit(Point food)
+        {
+            if (this.x == food.x && this.y == food.y)
+                return true;
+            else
+                return false;
+        }
     }
 }
