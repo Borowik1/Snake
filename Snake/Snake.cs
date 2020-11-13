@@ -9,9 +9,11 @@ namespace Snake
     class Snake : Figure
     {
         Direction direction;
+        int startLength;
         public Snake(Point tail, int length, Direction _direction)
         {
             direction = _direction;
+            startLength = length;
             pList = new List<Point>();
 
             for (int i = 0; i < length; i++)
@@ -19,7 +21,6 @@ namespace Snake
                 Point p = new Point(tail);
                 p.Move(i, direction);
                 pList.Add(p);
-
             }
         }
 
@@ -32,6 +33,23 @@ namespace Snake
 
             tail.Clear();
             head.Draw();
+        }
+
+        internal bool IsHitTail()
+        {
+            Point head = pList.Last();
+
+            for (int i = 0; i < pList.Count - 2; i++)
+            {
+                if (head.IsHit(pList[i]))
+                    return true;
+            }
+            return false;
+        }
+
+        internal int Length()
+        {
+            return pList.Count - startLength;
         }
 
         private Point GetNextPoint()

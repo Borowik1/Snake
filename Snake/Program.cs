@@ -9,6 +9,7 @@ namespace Snake
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             int width = 120;
@@ -16,15 +17,8 @@ namespace Snake
 
             Console.SetBufferSize(width, height);
 
-            HorizontalLine upLine = new HorizontalLine(0, width - 2, 0, '+');
-            HorizontalLine downLine = new HorizontalLine(0, width - 2, height - 1, '+');
-            VerticalLine leftLine = new VerticalLine(0, height - 1, 0, '+');
-            VerticalLine rightLine = new VerticalLine(0, height - 1, width - 2, '+');
-
-            upLine.Draw();
-            downLine.Draw();
-            leftLine.Draw();
-            rightLine.Draw();
+            Walls walls = new Walls(width, height);
+            walls.Draw();
 
             Point p = new Point(4, 5, '*');
             Snake snake = new Snake(p, 4, Direction.RIGHT);
@@ -36,6 +30,12 @@ namespace Snake
 
             while (true)
             {
+                if (walls.IsHit(snake) || snake.IsHitTail())
+                {
+                    GameOver(width, height, snake.Length());
+                    break;
+                }
+
                 if (snake.Eat(food))
                 {
                     food = foodCreator.CreateFood();
@@ -51,7 +51,41 @@ namespace Snake
                     ConsoleKeyInfo key = Console.ReadKey();
                     snake.HandleKey(key.Key);
                 }
-            }           
+            }
+        }
+
+        private static void GameOver(int width, int height, int score)
+        {
+            List<string> gameOver = new List<string>();
+            gameOver.Add(@"  ________                          ");
+            gameOver.Add(@" /  _____/ _____     _____    ____  ");
+            gameOver.Add(@"/   \  ___ \__  \   /     \ _/ __ \ ");
+            gameOver.Add(@"\    \_\  \ / __ \_|  Y Y  \\  ___/ ");
+            gameOver.Add(@" \______  /(____  /|__|_|  / \___  >");
+            gameOver.Add(@"        \/      \/       \/      \/ ");
+            gameOver.Add("");
+            gameOver.Add(@"      ____ ___  __  ____ _______ ");
+            gameOver.Add(@"     /  _ \\  \/ /_/ __ \\_  __ \");
+            gameOver.Add(@"    (  <_> )\   / \  ___/ |  | \/");
+            gameOver.Add(@"     \____/  \_/   \___  >|__|   ");
+            gameOver.Add(@"                       \/        ");
+
+            int x = (width - 36) / 2;
+            int y = (height - 14) / 2;
+            for (int i = 0; i < gameOver.Count; i++)
+            {
+                Console.SetCursorPosition(x, y + i);
+                Console.WriteLine(gameOver[i]);
+            }
+
+            Console.SetCursorPosition(x + 14, y + 15);
+            Console.WriteLine("Your score: " + score);
+
+            Console.SetCursorPosition(x + 10, y + 17);
+            Console.WriteLine("Press any key to exit");
+            Console.Read();
+
+
         }
     }
 }
