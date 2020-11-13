@@ -26,9 +26,25 @@ namespace Snake
             leftLine.Draw();
             rightLine.Draw();
 
+            VerticalLine vl = new VerticalLine(0, 10, 15, '%');
+            Draw(vl);
+
             Point p = new Point(4, 5, '*');
-            Snake snake = new Snake(p, 4, Direction.RIGHT);
-            snake.Draw();
+            Figure fSnake = new Snake(p, 4, Direction.RIGHT);
+            fSnake.Draw();
+            Snake snake = (Snake)fSnake;
+
+            HorizontalLine hl = new HorizontalLine(0, 5, 6, '&');
+
+            List<Figure> figures = new List<Figure>();
+            figures.Add(fSnake);
+            figures.Add(vl);
+            figures.Add(hl);
+
+            foreach (Figure figure in figures)
+            {
+                figure.Draw();
+            }
 
             FoodCreator foodCreator = new FoodCreator(width, height, '$');
             Point food = foodCreator.CreateFood();
@@ -52,6 +68,11 @@ namespace Snake
                     snake.HandleKey(key.Key);
                 }
             }           
+        }
+
+        private static void Draw(Figure figure)
+        {
+            figure.Draw();
         }
     }
 }

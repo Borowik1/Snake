@@ -16,5 +16,17 @@ namespace Snake
                 pList.Add(new Point(x, y, sym));
             }
         }
+
+        public override void Draw()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            foreach (Point point in pList)
+            {
+                point.Draw();
+            }
+
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 }
