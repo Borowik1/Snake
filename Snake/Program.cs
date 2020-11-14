@@ -84,8 +84,6 @@ namespace Snake
             Console.SetCursorPosition(x + 10, y + 17);
             Console.WriteLine("Press any key to exit");
             Console.Read();
-
-
         }
     }
 }
